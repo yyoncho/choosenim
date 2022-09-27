@@ -80,7 +80,7 @@ install() {
   fi
 
   # Copy choosenim binary to Nimble bin.
-  local nimbleBinDir=`"$temp_prefix/$filename" --getNimbleBin`
+  local nimbleBinDir=`"$temp_prefix/$filename" --getNimbleBin | grep Warning -v`
   cp "$temp_prefix/$filename" "$nimbleBinDir/choosenim$ext"
   say "ChooseNim installed in $nimbleBinDir"
   say "You must now ensure that the Nimble bin dir is in your PATH."
