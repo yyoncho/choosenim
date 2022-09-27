@@ -64,6 +64,7 @@ install() {
   fi
   chmod +x "$temp_prefix/$filename"
 
+  local nimbleBinDir="${NIMBLE_BIN:-`"$temp_prefix/$filename" --getNimbleBin`}"
   if [ "$need_tty" = "yes" ]; then
     # The installer is going to want to ask for confirmation by
     # reading stdin.  This script was piped into `sh` though and
@@ -74,13 +75,12 @@ install() {
     fi
 
     # Install Nim from desired channel.
-    "$temp_prefix/$filename" $CHOOSE_VERSION --firstInstall ${debug} < /dev/tty
+    "$temp_prefix/$filename" $CHOOSE_VERSION --nimbleDir=$nimbleBinDir --firstInstall ${debug} < /dev/tty
   else
-    "$temp_prefix/$filename" $CHOOSE_VERSION --firstInstall -y ${debug}
+    "$temp_prefix/$filename" $CHOOSE_VERSION --nimbleDir=$nimbleBinDir --firstInstall -y ${debug}
   fi
 
   # Copy choosenim binary to Nimble bin.
-  local nimbleBinDir=`"$temp_prefix/$filename" --getNimbleBin`
   cp "$temp_prefix/$filename" "$nimbleBinDir/choosenim$ext"
   say "ChooseNim installed in $nimbleBinDir"
   say "You must now ensure that the Nimble bin dir is in your PATH."
