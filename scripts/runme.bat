@@ -1,7 +1,10 @@
 @echo off
-.\choosenim\choosenim.exe stable --firstInstall
 
-for /f "delims=" %%a in ('.\choosenim\choosenim.exe --getNimbleBin') do @set NIMBLEBIN=%%a
+IF "%NIMBLEBIN%"==""
+  for /f "delims=" %%a in ('.\choosenim\choosenim.exe --getNimbleBin') do @set NIMBLEBIN=%%a
+
+.\choosenim\choosenim.exe stable --nimbleDir=%NIMBLEBIN% --firstInstall
+
 copy .\choosenim\choosenim.exe "%NIMBLEBIN%\choosenim.exe"
 
 echo             Work finished.
